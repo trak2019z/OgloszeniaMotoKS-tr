@@ -85,3 +85,7 @@ C:\Users\szcze\source\repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\Moto
 C:\Users\szcze\source\repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.csproj.CopyComplete
 C:\Users\szcze\source\repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.dll
 C:\Users\szcze\source\repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.pdb
+C:\Users\szcze\Source\Repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.Migrations._001.resources
+C:\Users\szcze\Source\Repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.csproj.GenerateResource.cache
+C:\Users\szcze\Source\Repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.Migrations._002.resources
+C:\Users\szcze\Source\Repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.Migrations._003.resources

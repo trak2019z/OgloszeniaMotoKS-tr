@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using MotoKS.Models;
+using System.Data.Entity;
 
 namespace MotoOgloszeniaKS.Models
 {
@@ -8,5 +9,11 @@ namespace MotoOgloszeniaKS.Models
         {
 
         }
+
+        public DbSet<Users> Users { get; set; }
+
+        public DbSet<Cars> Cars { get; set; }
+
+        public DbSet<Conversations> Conversations { get; set; }
     }
 }
