@@ -19,18 +19,25 @@ namespace MotoKS.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
+        [Required]
+        [EmailAddress]
         public string Mail { get; set; }
 
+        [Required]
         public string Password { get; set; }
 
         public string Salt { get; set; }
 
+        [Required]
         public string FirstName { get; set; }
 
         public DateTime DateAdded { get; set; }
 
+        [Required]
         public string CityName { get; set; }
 
+        [Required]
+        [Phone]
         public string Phone { get; set; }
 
         public virtual HashSet<Cars> Cars { get; set; }
