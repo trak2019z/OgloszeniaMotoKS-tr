@@ -1,3 +1,4 @@
+using MotoKS.Models;
 using MotoOgloszeniaKS.Models;
 using System.Web;
 using System.Web.Mvc;
