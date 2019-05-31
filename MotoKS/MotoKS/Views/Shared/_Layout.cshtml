@@ -1,15 +1,47 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - MotoKS</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+        .affix 
+        {
+            top: 0;
+            width: 100%;
+            z-index: 9999
+        }
+
+        .affix + .container-fluid 
+        {
+           padding-top: 70px;
+        }
+
+        .margins {
+            margin-top: 60px;
+        }
+
+        .bggreen {
+            background-color: #00cccc;
+            color: white;
+        }
+
+        .btn:hover {
+            background-color: #00cccc;
+        }
+
+        .navbar-inverse .navbar-brand .glyphicon:hover 
+        {
+            color: #00cccc;
+        }
+    </style>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse data-spy='affix' data-offset-top='75'">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -17,13 +49,31 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Nazwa aplikacji", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li>
+                        <a href="@Url.Action("Index", "Home")" class="btn">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                        </a>
+                    </li>
                     <li>@Html.ActionLink("Strona główna", "Index", "Home")</li>
                     <li>@Html.ActionLink("Informacje", "About", "Home")</li>
                     <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
+                </ul>
+                <ul class='nav navbar-nav navbar-right'>
+                    <li>
+                        <a href="@Url.Action("SignIn", "Home")" class="btn">
+                            Stwórz konto
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("SignUp", "Home")" class="btn">
+                           Zaloguj
+                            <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -32,7 +82,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Moja aplikacja ASP.NET</p>
+            <p>&copy; @DateTime.Now.Year - MotoKS by CaeMeS</p>
         </footer>
     </div>
 
@@ -41,3 +91,11 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+<script>
+        $(function() {
+        $('#nav-wrapper').height($("#nav").height());
+        $('#nav').affix({
+        offset: { top: $('#nav').offset().top }
+        });
+        });
+</script>
