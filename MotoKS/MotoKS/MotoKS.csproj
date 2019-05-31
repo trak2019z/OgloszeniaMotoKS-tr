@@ -142,6 +142,10 @@
     <Compile Include="Migrations\201905250729456_003.Designer.cs">
       <DependentUpon>201905250729456_003.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905311001267_004.cs" />
+    <Compile Include="Migrations\201905311001267_004.Designer.cs">
+      <DependentUpon>201905311001267_004.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Brands.cs" />
     <Compile Include="Models\Cars.cs" />
@@ -181,6 +185,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="SQL\sql.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -221,6 +226,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905250729456_003.resx">
       <DependentUpon>201905250729456_003.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905311001267_004.resx">
+      <DependentUpon>201905311001267_004.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
