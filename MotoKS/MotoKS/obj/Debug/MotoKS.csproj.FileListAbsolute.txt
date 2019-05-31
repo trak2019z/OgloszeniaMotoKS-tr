@@ -181,3 +181,5 @@ C:\Users\Administracja\Source\Repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\De
 C:\Users\Administracja\Source\Repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.dll
 C:\Users\Administracja\Source\Repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.pdb
 C:\Users\Administracja\Source\Repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.Migrations._004.resources
+C:\Users\szcze\source\repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.Migrations._004.resources
+C:\Users\szcze\source\repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.Migrations._005.resources

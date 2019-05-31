@@ -127,6 +127,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SignInController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -145,6 +146,10 @@
     <Compile Include="Migrations\201905311001267_004.cs" />
     <Compile Include="Migrations\201905311001267_004.Designer.cs">
       <DependentUpon>201905311001267_004.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905311713251_005.cs" />
+    <Compile Include="Migrations\201905311713251_005.Designer.cs">
+      <DependentUpon>201905311713251_005.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Brands.cs" />
@@ -200,7 +205,8 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\SignIn.cshtml" />
+    <Content Include="Views\SignIn\Index.cshtml" />
+    <Content Include="Views\SignIn\Gz.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -230,6 +236,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905311001267_004.resx">
       <DependentUpon>201905311001267_004.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905311713251_005.resx">
+      <DependentUpon>201905311713251_005.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

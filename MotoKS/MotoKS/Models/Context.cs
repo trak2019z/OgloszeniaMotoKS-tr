@@ -1,7 +1,7 @@
 ﻿using MotoKS.Models;
 using System.Data.Entity;
 
-namespace MotoOgloszeniaKS.Models
+namespace MotoKS.Models
 {
     public class Context : DbContext
     {
