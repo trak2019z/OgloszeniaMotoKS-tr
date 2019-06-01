@@ -51,6 +51,8 @@ namespace MotoKS.Controllers
                 }
                 string salt = new string(chars);
 
+                usr.Salt = salt;
+
                 byte[] bytes = Encoding.Unicode.GetBytes(usr.Password);
                 byte[] src = Encoding.Unicode.GetBytes(salt);
                 byte[] dst = new byte[src.Length + bytes.Length];

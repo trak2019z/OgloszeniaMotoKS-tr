@@ -3,7 +3,8 @@
     "",
     "\\MotoKS",
     "\\MotoKS\\MotoKS",
-    "\\MotoKS\\MotoKS\\Models"
+    "\\MotoKS\\MotoKS\\Models",
+    "\\MotoKS\\MotoKS\\Views"
   ],
   "SelectedNode": "\\MotoKS\\MotoKS\\Models\\Context.cs",
   "PreviewInSolutionExplorer": false
