@@ -1,0 +1,48 @@
+﻿
+@model MotoKS.Models.Users
+@{
+    MotoKS.Models.Context ctx = new MotoKS.Models.Context();
+    ViewBag.Title = "SignUp";
+}
+
+@using (Html.BeginForm("Index", "SignUp", FormMethod.Post))
+{
+    <div class="container margins" style="background-color: #f2f2f2;">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 style="color: #1a1a1a; text-align: center;"><b>Zaloguj się</b></h2> <br>
+            </div>
+            <hr>
+            <div class="col-sm-5 cols-sm-offset-3">
+                <form class="form-horizontal" method=post action="">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 col-sm-offset-2" style="white-space: nowrap;" for="mail">E-mail:</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(x => x.Mail, new { type = "mail", @class = "form-control", maxlength = 30, id = "mail", name = "mail" }) <br />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 col-sm-offset-2" for="paassowrd">Hasło:</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(x => x.Password, new { type = "password", @class = "form-control", id = "password", maxlength = 20 }) <br />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-1">
+                            <button class="btn btn-primary" type="submit" class="btn btn-default">Zaloguj</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="form-group col-sm-6 col-sm-offset-1">
+                <a class="lks" href="@Url.Action("Index", "SignIn")"><b> Nie masz konta? </b></a>
+            </div>
+            <div class="form-group col-sm-6 col-sm-offset-1">
+                <a class="lks" href="#"><b> Nie możesz się zalogować? </b></a>
+            </div>
+            <hr>
+        </div>
+    </div>
+}
+
+
