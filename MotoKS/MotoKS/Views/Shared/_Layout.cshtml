@@ -81,6 +81,11 @@
                         </a>
                     </li>
                     <li>@Html.ActionLink("Ogłoszenia", "Cars", "Home")</li>
+                    <li>
+                        <a href="@Url.Action("Index", "Add")" class="btn">
+                            + Dodaj ogłoszenie
+                        </a>
+                    </li>
                 </ul>
                 <ul class='nav navbar-nav navbar-right'>
                     @if (Session["mail"] == null)

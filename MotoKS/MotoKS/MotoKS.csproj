@@ -126,6 +126,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AddController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SignInController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
@@ -207,6 +208,7 @@
     <Content Include="Views\SignIn\Index.cshtml" />
     <Content Include="Views\SignIn\Gz.cshtml" />
     <Content Include="Views\SignUp\Index.cshtml" />
+    <Content Include="Views\Add\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

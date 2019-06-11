@@ -1,0 +1,266 @@
+﻿
+@model MotoKS.Models.Cars
+@{
+    MotoKS.Models.Context ctx = new MotoKS.Models.Context();
+    ViewBag.Title = "Dodaj";
+}
+
+@using (Html.BeginForm("Index", "Add", FormMethod.Post))
+{
+    <div style="text-align: center">
+        <h2> <b> Dodaj nowe ogłoszenie</b></h2>
+    </div>
+    <div class="container margins col-sm-6 col-sm-offset-3" style="background-color: #f2f2f2;">
+        <hr>
+        <div class="form-group">
+            <div class="row col-sm-12">
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="marka">Marka</label>
+                    <div class="form-group">
+                        @Html.DropDownListFor(x => x.Brand, (IEnumerable<SelectListItem>)ViewBag.data2, "Marka", new { @class = "form-control", onchange = "getModel()", id = "marka", name = "marka" })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="model">Model</label>
+                    <select class="form-control" name="model" id="model">
+                        <option value="" disabled selected>Model</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="status">Stan</label>
+                    @Html.EnumDropDownListFor(x => x.State, "", new { @class = "form-control" })
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container col-sm-6 col-sm-offset-3" style="background-color: #f2f2f2; margin-top:20px;">
+        <hr>
+        <br>
+        <div class="form-group">
+            <div class="row col-sm-12">
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="typ">Typ pojazdu</label>
+                    @Html.EnumDropDownListFor(x => x.Type, "", new { @class = "form-control" })
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="damaged">Uszkodzony</label>
+                    @Html.EnumDropDownListFor(x => x.Damaged, "", new { @class = "form-control" })
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="rok">Rok produkcji</label>
+                    @Html.TextBoxFor(x => x.ProdDate, new { type = "number", @class = "form-control", maxlength = 4 })
+                </div>
+            </div>
+        </div> <br> <br>
+        <br>
+        <div class="form-group">
+            <div class="row col-sm-12">
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="paliwo" style="white-space: nowrap;">Paliwo</label>
+                    <select class="form-control" id="paliwo" name="paliwo" required>
+                        <option value="" disabled selected></option>
+                        <?php
+                        $q3 = mysqli_query($link, "select type from fuel");
+                        while($row3 = mysqli_fetch_array($q3))
+                        {
+                        echo "
+                        <option value='".$row3[' type']."'> ".$row3['type']." </option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="gearbox">Skrzynia biegów</label>
+                    <select class="form-control" id="gearbox" name="gearbox" required>
+                        <option value="" disabled selected></option>
+                        <?php
+                        $q5 = mysqli_query($link, "select type from gearbox");
+                        while($row5 = mysqli_fetch_array($q5))
+                        {
+                        echo "
+                        <option value='".$row5[' type']."'> ".$row5['type']." </option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="przebieg" style="white-space: nowrap;">Przebieg - km</label>
+                    <input type="number" class="form-control" id="przebieg" name="przebieg" required maxlength=10>
+                </div>
+            </div>
+        </div> <br> <br>
+        <br>
+        <div class="form-group">
+            <div class="row col-sm-12">
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="drive">Napęd</label>
+                    <select class="form-control" id="drive" name="drive" required>
+                        <option value="" disabled selected></option>
+                        <?php
+                        $q6 = mysqli_query($link, "select type from drive");
+                        while($row6 = mysqli_fetch_array($q6))
+                        {
+                        echo "
+                        <option value='".$row6[' type']."'> ".$row6['type']." </option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="engine" style="white-space: nowrap;">Poj. silnika - cm³</label>
+                    <input type="number" class="form-control" id="engine" name="engine" required maxlength=5>
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="moc" style="white-space: nowrap;">Moc silnika - KM</label>
+                    <input type="number" class="form-control" id="moc" name="moc" required maxlength=5>
+                    <hr>
+                </div> <br>
+            </div>
+        </div>
+    </div>
+    <div class="container col-sm-6 col-sm-offset-3" style="background-color: #f2f2f2; margin-top:20px;">
+        <hr>
+        <br>
+        <div class="form-group">
+            <div class="row col-sm-12">
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="price" style="white-space: nowrap;">Cena - zł</label>
+                    <input type="number" class="form-control" id="price" name="price" required maxlength=10>
+                </div>
+                <div class="col-sm-4">
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        <input type="checkbox" class="form-check-input" name="netto"> Cena netto
+                    </label> <br>
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        <input type="checkbox" class="form-check-input" name="negotiable"> Do negocjacji
+                    </label> <br>
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        <input type="checkbox" class="form-check-input" name="reg"> Zarejestrowany
+                    </label>
+                </div>
+                <div class="col-sm-4">
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        <input type="checkbox" class="form-check-input" name="vat"> Faktura VAT
+                    </label> <br>
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        <input type="checkbox" class="form-check-input" name="leasing"> Leasing
+                    </label> <br>
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        <input type="checkbox" class="form-check-input" name="OC"> Ubezpieczony
+                    </label>
+                    <hr>
+                </div> <br>
+            </div>
+        </div>
+    </div>
+    <div class="container col-sm-6 col-sm-offset-3" style="background-color: #f2f2f2; margin-top:20px;">
+        <hr>
+        <br>
+        <div class="form-group">
+            <div class="row col-sm-12">
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="color" style="white-space: nowrap;">Kolor</label>
+                    <input type="text" class="form-control" id="color" name="color" required maxlength=20>
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="country" style="white-space: nowrap;">Kraj pochodzenia</label>
+                    <input type="text" class="form-control" id="country" name="country" required maxlength=20>
+                </div>
+                <div class="col-sm-4">
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        <input type="checkbox" class="form-check-input" name="owner"> Pierwszy właściciel
+                    </label> <br>
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        <input type="checkbox" class="form-check-input" name="ASO"> Serwisowany w ASO
+                    </label> <br>
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        <input type="checkbox" class="form-check-input" name="noacc"> Bezwypadkowy
+                    </label>
+                    <hr>
+                </div> <br>
+            </div>
+        </div>
+    </div>
+    <div class="container col-sm-6 col-sm-offset-3" style="background-color: #f2f2f2; margin-top:20px;">
+        <hr>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <label class="col-sm-12" for="desc" style="white-space: nowrap;">Opis</label>
+                <textarea class="form-control" style="resize: none;" name="opis" id="opis" cols="100" rows="10" maxlength="4096" required></textarea>
+                <hr>
+            </div>
+            <hr>
+
+        </div>
+    </div>
+    <div class="container col-sm-6 col-sm-offset-3" style="background-color: #f2f2f2; margin-top:20px;">
+        <hr>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <h3 style="text-align: center"> Dodaj zdjęcię główne</h3> <br>
+            </div>
+            <div style="text-align: center">
+                <input class="inputfile" name="file" type="file" id="file" required onchange="preview_image(event)">
+                <label class="lbl" for="file"> <span class='glyphicon glyphicon-cloud-upload'></span> Wybierz</label> <br>
+            </div>
+            <div style="text-align: center">
+                <img id="previmg" /> <br>
+            </div>
+            <div class="col-sm-12">
+                <h3 style="text-align: center"> Dodaj zdjęcia dodatkowe</h3> <br>
+            </div>
+            <div style="text-align: center">
+                <input class="inputfile" name="files[]" type="file" id="files" multiple>
+                <label class="lbl" for="files"> <span class='glyphicon glyphicon-cloud-upload'></span> Wybierz</label> <br>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <div class="container col-sm-6 col-sm-offset-3" style="background-color: #f2f2f2; margin-top:20px;">
+        <hr>
+        <br>
+        <div class="form-group">
+            <div class="row col-sm-12">
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="city" style="white-space: nowrap;">Miasto</label>
+                    <input type="text" class="form-control" id="city" name="city" required value="<?php echo htmlspecialchars($row[0]); ?>" maxlength=30>
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="post" style="white-space: nowrap;">Kod pocztowy</label>
+                    <input type="text" class="form-control" id="postcode" name="postcode" required value="<?php echo htmlspecialchars($row[2]); ?>" maxlength=10>
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="moc" style="white-space: nowrap;">Telefon</label>
+                    <input type="number" class="form-control" id="phone" name="phone" required value="<?php echo htmlspecialchars($row[1]); ?>" maxlength=10>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div> <br>
+    <div class="container col-sm-6 col-sm-offset-3" style="margin-top:20px;">
+        <div class="form-group col-sm-3 pull-right">
+            <button type="submit" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-check"></span>  Dodaj</button>
+        </div>
+    </div>
+}
+
+<script>
+
+    function getModel() {
+        jQuery.ajax({
+            url: '@Url.Action("GetModel", "Add")',
+            data: 'marka=' + $("#marka").val(),
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $('#model').html(data);
+                $("#model").prop('disabled', false);
+            },
+            error: function () { }
+        });
+    }
+</script>
+
+
