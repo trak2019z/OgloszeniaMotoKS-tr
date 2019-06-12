@@ -37,6 +37,9 @@ namespace MotoKS.Models
         public string CityName { get; set; }
 
         [Required]
+        public string PostCode { get; set; }
+
+        [Required]
         [Phone]
         public string Phone { get; set; }
 

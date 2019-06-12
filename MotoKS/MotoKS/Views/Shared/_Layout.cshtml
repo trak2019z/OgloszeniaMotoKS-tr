@@ -34,6 +34,29 @@
             background-color: #00cccc;
         }
 
+        .bgaqua
+        {
+            background-color: #00cccc;
+            color: white;
+        }
+
+        .clear
+        {
+            clear:both;
+        }
+
+        .lks:link
+        {
+            text-decoration: none;
+            font-size: 180%
+        }
+
+        .lks:hover
+        {
+            text-decoration: none;
+            color: #00cccc;
+        }
+
         .navbar-inverse .navbar-brand .glyphicon:hover 
         {
             color: #00cccc;
@@ -57,23 +80,45 @@
                             <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
                         </a>
                     </li>
-                    <li>@Html.ActionLink("Strona główna", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Informacje", "About", "Home")</li>
-                    <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Ogłoszenia", "Cars", "Home")</li>
+                    <li>
+                        <a href="@Url.Action("Index", "Add")" class="btn">
+                            + Dodaj ogłoszenie
+                        </a>
+                    </li>
                 </ul>
                 <ul class='nav navbar-nav navbar-right'>
-                    <li>
-                        <a href="@Url.Action("SignIn", "Home")" class="btn">
-                            Stwórz konto
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("SignUp", "Home")" class="btn">
-                           Zaloguj
-                            <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-                        </a>
-                    </li>
+                    @if (Session["mail"] == null)
+                    {
+                        <li>
+                            <a href="@Url.Action("Index", "SignIn")" class="btn">
+                                Stwórz konto
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "SignUp")" class="btn">
+                                Zaloguj
+                                <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="@Url.Action("Index", "Account")" class="btn">
+                                Moje konto
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("SignOff", "SignUp")" class="btn">
+                                Wyloguj
+                                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                    }
+
                 </ul>
             </div>
         </div>
