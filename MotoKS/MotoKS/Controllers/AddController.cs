@@ -58,7 +58,7 @@ namespace MotoKS.Controllers
                     var NewFN2 = string.Format("{0}-{1}{2}", Path.GetFileNameWithoutExtension(f.FileName), Guid.NewGuid().ToString("N"), Path.GetExtension(f.FileName));
 
                     string paths = Path.Combine(Server.MapPath("~/Content/Images"), NewFN2);
-                    file.SaveAs(paths);
+                    f.SaveAs(paths);
 
                     ps = new Photos
                     {

@@ -23,39 +23,40 @@ namespace MotoKS.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string marka, string model, int Rok_od, int Rok_do, int Cena_od, int Cena_do, string Stan)
+        public ActionResult Index(string marka = "", string model = "", int Rok_od = 0, int Rok_do = 0, int Cena_od = 0, int Cena_do = 0, string Stan = "")
         {
             using (var ctx = new Context())
             {
-                IQueryable<Cars> cars = ctx.Cars.OrderByDescending(x => x.DateAdded);
+                var cars = ctx.Cars.OrderByDescending(x => x.DateAdded).ToList();
 
                 if (!string.IsNullOrEmpty(marka))
-                    cars = ctx.Cars.Where(x => x.Brand.Brand == marka);
+                    cars = ctx.Cars.Where(x => x.Brand.Brand == marka).ToList();
 
                 if (!string.IsNullOrEmpty(model))
-                    cars = ctx.Cars.Where(x => x.CarModel.Model == model);
+                    cars = ctx.Cars.Where(x => x.CarModel.Model == model).ToList();
 
-                if (!string.IsNullOrEmpty(Rok_od.ToString()))
-                    cars = ctx.Cars.Where(x => x.ProdDate >= Rok_od);
+                if (Rok_od != 0)
+                    cars = ctx.Cars.Where(x => x.ProdDate >= Rok_od).ToList();
 
-                if (!string.IsNullOrEmpty(Rok_do.ToString()))
-                    cars = ctx.Cars.Where(x => x.ProdDate <= Rok_do);
+                if (Rok_do != 0)
+                    cars = ctx.Cars.Where(x => x.ProdDate <= Rok_do).ToList();
 
-                if (!string.IsNullOrEmpty(Cena_od.ToString()))
-                    cars = ctx.Cars.Where(x => x.Price_ >= Cena_od);
+                if (Cena_od != 0)
+                    cars = ctx.Cars.Where(x => x.Price_ >= Cena_od).ToList();
 
-                if (!string.IsNullOrEmpty(Cena_do.ToString()))
-                    cars = ctx.Cars.Where(x => x.Price_ >= Cena_do);
+                if (Cena_do != 0)
+                    cars = ctx.Cars.Where(x => x.Price_ <= Cena_do).ToList();
 
                 if (!string.IsNullOrEmpty(Stan))
                 {
                     if(Stan == "Nowe")
-                        cars = ctx.Cars.Where(x => x.State == State.Nowy);
+                        cars = ctx.Cars.Where(x => x.State == State.Nowy).ToList();
                     else if(Stan == "Używane")
-                        cars = ctx.Cars.Where(x => x.State == State.Używany);
+                        cars = ctx.Cars.Where(x => x.State == State.Używany).ToList();
                 }
 
-                ViewBag.Cars2 = cars;
+                if(cars != null)
+                    Session["Cars2"] = cars;
 
                 return RedirectToAction("Index", "Cars");
             }

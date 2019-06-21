@@ -31,7 +31,7 @@ namespace MotoKS.Controllers
         }
 
         [HttpPost]
-        public ActionResult Search(string marka, string model, int Rok_od, int Rok_do, int Cena_od, int Cena_do, string stan, int Silnik_od, int Silnik_do, int Moc_od, int Moc_do, Cars c)
+        public ActionResult Search(string marka = "", string model = "", int Rok_od = 0, int Rok_do = 0, int Cena_od = 0, int Cena_do = 0, string stan = "", int Silnik_od = 0, int Silnik_do = 0, int Moc_od = 0, int Moc_do = 0, Cars c = null)
         {
             using (var ctx = new Context())
             {
@@ -43,16 +43,16 @@ namespace MotoKS.Controllers
                 if (!string.IsNullOrEmpty(model))
                     cars = cars.Where(x => x.CarModel.Model == model);
 
-                if (!string.IsNullOrEmpty(Rok_od.ToString()))
+                if (Rok_od != 0)
                     cars = cars.Where(x => x.ProdDate >= Rok_od);
 
-                if (!string.IsNullOrEmpty(Rok_do.ToString()))
+                if (Rok_do != 0)
                     cars = cars.Where(x => x.ProdDate <= Rok_do);
 
-                if (!string.IsNullOrEmpty(Cena_od.ToString()))
+                if (Cena_od != 0)
                     cars = cars.Where(x => x.Price_ >= Cena_od);
 
-                if (!string.IsNullOrEmpty(Cena_do.ToString()))
+                if (Cena_do != 0)
                     cars = cars.Where(x => x.Price_ >= Cena_do);
 
                 if (stan == "2")
@@ -61,19 +61,16 @@ namespace MotoKS.Controllers
                 if (stan == "3")
                     cars = cars.Where(x => x.State == State.Używany);
 
-                if (!string.IsNullOrEmpty(Silnik_od.ToString()))
+                if (Silnik_od != 0)
                     cars = cars.Where(x => x.Engine >= Silnik_od);
 
-                if (!string.IsNullOrEmpty(Silnik_do.ToString()))
+                if (Silnik_do != 0)
                     cars = cars.Where(x => x.Engine <= Silnik_do);
 
-                if (!string.IsNullOrEmpty(Moc_od.ToString()))
+                if (Moc_od != 0)
                     cars = cars.Where(x => x.bHP >= Moc_od);
 
-                if (!string.IsNullOrEmpty(Moc_do.ToString()))
-                    cars = cars.Where(x => x.bHP >= Moc_do);
-
-                if (!string.IsNullOrEmpty(Moc_do.ToString()))
+                if (Moc_do != 0)
                     cars = cars.Where(x => x.bHP >= Moc_do);
 
                 if (c.Damaged.ToString() != "Uszkodzony")
@@ -91,7 +88,8 @@ namespace MotoKS.Controllers
                 if (c.Drive.ToString() != "Napęd")
                     cars = cars.Where(x => x.Drive == c.Drive);
 
-                ViewBag.Cars = cars;
+                if (cars != null)
+                    Session["Cars"] = cars;
 
                 return View();
             }

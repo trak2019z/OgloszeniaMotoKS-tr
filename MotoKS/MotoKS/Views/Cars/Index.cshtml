@@ -66,16 +66,16 @@
     </div>
 }
 
-@if (ViewBag.Cars != null)
+@if (Session["Cars"] != null)
 {
-    show = ViewBag.Cars;
+    show = (List<MotoKS.Models.Cars>)Session["Cars"];
 }
-else if (ViewBag.Cars2 != null)
+else if (Session["Cars2"] != null)
 {
-    show = ViewBag.Cars2;
+    show = (List<MotoKS.Models.Cars>)Session["Cars2"];
 }
 
-@foreach (var i in show)
+@foreach (MotoKS.Models.Cars i in show)
 {
     string net = "";
     string vat = "";
