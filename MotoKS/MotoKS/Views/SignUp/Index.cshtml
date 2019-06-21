@@ -13,6 +13,13 @@
                 <h2 style="color: #1a1a1a; text-align: center;"><b>Zaloguj się</b></h2> <br>
             </div>
             <hr>
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="col-sm-12">
+                    <h4 style="color: orangered; text-align: center;"> @ViewBag.ErrorMessage; </h4>
+                </div>
+                <hr>
+            }
             <div class="col-sm-5 cols-sm-offset-3">
                 <form class="form-horizontal" method=post action="">
                     <div class="form-group">
@@ -37,9 +44,9 @@
             <div class="form-group col-sm-6 col-sm-offset-1">
                 <a class="lks" href="@Url.Action("Index", "SignIn")"><b> Nie masz konta? </b></a>
             </div>
-            <div class="form-group col-sm-6 col-sm-offset-1">
+            @*<div class="form-group col-sm-6 col-sm-offset-1">
                 <a class="lks" href="#"><b> Nie możesz się zalogować? </b></a>
-            </div>
+            </div>*@
             <hr>
         </div>
     </div>

@@ -12,6 +12,7 @@ namespace MotoKS.Models
         {
             Conversations = new HashSet<Conversations>();
             Photos = new HashSet<Photos>();
+            Favs = new HashSet<Favs>();
             DateAdded = DateTime.Now;
         }
 
@@ -22,7 +23,7 @@ namespace MotoKS.Models
         public DateTime DateAdded { get; set; }
 
         [Required]
-        public int Price { get; set; }
+        public int Price_ { get; set; }
 
         [Required]
         public int ProdDate { get; set; }
@@ -33,8 +34,6 @@ namespace MotoKS.Models
         public bool Netto { get; set; }
 
         public bool Negotiable { get; set; }
-
-        public bool Damaged { get; set; }
 
         public bool OC { get; set; }
 
@@ -47,7 +46,7 @@ namespace MotoKS.Models
         public bool Leasing { get; set; }
 
         [Required]
-        public string Engine { get; set; }
+        public int Engine { get; set; }
 
         [Required]
         public int bHP { get; set; }
@@ -74,8 +73,6 @@ namespace MotoKS.Models
         [Phone]
         public string Phone { get; set; }
 
-        public int Favs { get; set; }
-        
         public int Views { get; set; }
 
         public Drive Drive { get; set; }
@@ -91,6 +88,8 @@ namespace MotoKS.Models
 
         public Type Type { get; set; }
 
+        public Damaged Damaged { get; set; }
+
         public virtual Users User { get; set; }
 
         public virtual Brands Brand { get; set; }
@@ -99,6 +98,8 @@ namespace MotoKS.Models
 
         public virtual HashSet<Conversations> Conversations { get; set; }
 
-        public virtual HashSet<Photos> Photos { get; set; } 
+        public virtual HashSet<Photos> Photos { get; set; }
+
+        public virtual HashSet<Favs> Favs { get; set; }
     }
 }

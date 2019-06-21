@@ -3,8 +3,11 @@
     "",
     "\\MotoKS",
     "\\MotoKS\\MotoKS",
-    "\\MotoKS\\MotoKS\\Models"
+    "\\MotoKS\\MotoKS\\Models",
+    "\\MotoKS\\MotoKS\\Views",
+    "\\MotoKS\\MotoKS\\Views\\Add",
+    "\\MotoKS\\MotoKS\\Views\\Car"
   ],
-  "SelectedNode": "\\MotoKS\\MotoKS\\Models\\Context.cs",
+  "SelectedNode": "\\MotoKS\\MotoKS\\Views\\Add\\Index.cshtml",
   "PreviewInSolutionExplorer": false
 }

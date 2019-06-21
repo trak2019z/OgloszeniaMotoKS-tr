@@ -126,7 +126,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AddController.cs" />
+    <Compile Include="Controllers\CarController.cs" />
+    <Compile Include="Controllers\CarsController.cs" />
+    <Compile Include="Controllers\ConvController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SignInController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
@@ -153,11 +157,24 @@
     <Compile Include="Migrations\201905311713251_005.Designer.cs">
       <DependentUpon>201905311713251_005.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906171658466_006.cs" />
+    <Compile Include="Migrations\201906171658466_006.Designer.cs">
+      <DependentUpon>201906171658466_006.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906181811065_007.cs" />
+    <Compile Include="Migrations\201906181811065_007.Designer.cs">
+      <DependentUpon>201906181811065_007.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906181819573_008.cs" />
+    <Compile Include="Migrations\201906181819573_008.Designer.cs">
+      <DependentUpon>201906181819573_008.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Brands.cs" />
     <Compile Include="Models\Cars.cs" />
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Conversations.cs" />
+    <Compile Include="Models\Damaged.cs" />
     <Compile Include="Models\Drive.cs" />
     <Compile Include="Models\Favs.cs" />
     <Compile Include="Models\Fuel.cs" />
@@ -209,6 +226,11 @@
     <Content Include="Views\SignIn\Gz.cshtml" />
     <Content Include="Views\SignUp\Index.cshtml" />
     <Content Include="Views\Add\Index.cshtml" />
+    <Content Include="Views\Car\Index.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Car\Edit.cshtml" />
+    <Content Include="Views\Cars\Index.cshtml" />
+    <Content Include="Views\Conv\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -241,6 +263,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905311713251_005.resx">
       <DependentUpon>201905311713251_005.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906171658466_006.resx">
+      <DependentUpon>201906171658466_006.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906181811065_007.resx">
+      <DependentUpon>201906181811065_007.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906181819573_008.resx">
+      <DependentUpon>201906181819573_008.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

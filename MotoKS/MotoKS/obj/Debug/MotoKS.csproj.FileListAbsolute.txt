@@ -183,3 +183,6 @@ C:\Users\Administracja\Source\Repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\De
 C:\Users\Administracja\Source\Repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.Migrations._004.resources
 C:\Users\szcze\source\repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.Migrations._004.resources
 C:\Users\szcze\source\repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.Migrations._005.resources
+C:\Users\szcze\source\repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.Migrations._006.resources
+C:\Users\szcze\source\repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.Migrations._007.resources
+C:\Users\szcze\source\repos\CaeMeS\OgloszeniaMotoKS\MotoKS\MotoKS\obj\Debug\MotoKS.Migrations._008.resources

@@ -1,6 +1,8 @@
 ﻿@model MotoKS.Models.Brands
 @{
     MotoKS.Models.Context ctx = new MotoKS.Models.Context();
+    var cars = ctx.Cars.OrderByDescending(x => x.DateAdded).ToList();
+    int j = 0;
     ViewBag.Title = "Home Page";
 }
 
@@ -29,7 +31,7 @@
                 <div class="form-inline col-sm-12">
                     @Html.TextBox("Rok_od", null, new { type = "year", @class = "form-control", placeholder = "Od" })
                     @Html.TextBox("Rok_do", null, new { type = "year", @class = "form-control", placeholder = "Do" })
-                </div> 
+                </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-12" for="cena">Cena</label> <br>
@@ -59,12 +61,38 @@
             </div>
         </div>
     </div>
+
+    <div class="col-sm-10 col-sm-offset-1 col-xs-12 margins2">
+
+        @if (cars == null) { }
+        else
+        {
+            <h2 class="col-sm-offset-1"> Najnowsze ogłoszenia </h2> <br>
+
+            foreach (var c in cars)
+            {
+                if (j < 6)
+                {
+                    <a style="text-decoration: none" href="@Url.Action("Index", "Car", new { c.ID })">
+                        <div class="col-sm-2">
+                            <img class="img-responsive img-rounded ctr" src="~/Content/Images/@c.MainPhoto" alt="Article Photo" width="320" height="180">
+                            <h4 class="one"> <b> @c.Brand.Brand @c.CarModel.Model </b> </h4>
+                            <p class="one"> <b> @c.Type • @c.ProdDate • @c.Price_ zł </b> </p>
+                            <hr>
+                        </div>
+                    </a>
+                }
+
+                j++;
+            }
+        }
+    </div>
 }
 <script>
 
     function getModel() {
         jQuery.ajax({
-            url: '@Url.Action("GetModel", "Home")',
+            url: '@Url.Action("GetModel", "Add")',
             data: 'marka=' + $("#marka").val(),
             type: "GET",
             contentType: "application/json; charset=utf-8",

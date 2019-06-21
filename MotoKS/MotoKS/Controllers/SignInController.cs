@@ -41,6 +41,15 @@ namespace MotoKS.Controllers
         {
             using (var ctx = new Context())
             {
+                var tmp = ctx.Users.Where(x => x.Mail == usr.Mail).FirstOrDefault();
+
+                if(tmp != null)
+                {
+                    ViewBag.ErrorMessage = "Konto o podanym adresie e-mail już istnieje";
+
+                    return View();
+                }
+
                 const string allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
                 var randNum = new Random();
                 var chars = new char[10];
@@ -63,12 +72,12 @@ namespace MotoKS.Controllers
 
                 byte[] originalBytes;
                 byte[] encodedBytes;
-                MD5 md5;  
+                MD5 md5;
                 md5 = new MD5CryptoServiceProvider();
                 originalBytes = Encoding.Default.GetBytes(Convert.ToBase64String(inArray));
                 encodedBytes = md5.ComputeHash(originalBytes);
-                
-                usr.Password =  BitConverter.ToString(encodedBytes);
+
+                usr.Password = BitConverter.ToString(encodedBytes);
 
                 ctx.Users.Add(usr);
 

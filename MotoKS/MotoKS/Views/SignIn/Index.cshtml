@@ -10,6 +10,13 @@
         <div class="col-sm-12">
             <h2 style="color: #1a1a1a; text-align: center;"><b>Tworzenie nowego konta</b></h2>
         </div>
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="col-sm-12">
+                <h4 style="color: orangered; text-align: center;"> @ViewBag.ErrorMessage; </h4>
+            </div>
+            <hr>
+        }
         <div class="container margins col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1" style="background-color: #f2f2f2;">
             <hr>
             <form class="form-horizontal" method=post action="">

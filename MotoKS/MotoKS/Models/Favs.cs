@@ -7,13 +7,18 @@ namespace MotoKS.Models
     [Table("Favs")]
     public class Favs
     {
+        public Favs()
+        {
+            Date = DateTime.Now;
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
-        public Users User { get; set; }
+        public virtual Users User { get; set; }
 
-        public Cars Car { get; set; }
+        public virtual Cars Car { get; set; }
 
         public DateTime Date { get; set; }
     }

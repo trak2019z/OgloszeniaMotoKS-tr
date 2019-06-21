@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace MotoKS.Models
+﻿namespace MotoKS.Models
 {
-    public class Damaged
+    public enum Damaged
     {
+        Tak = 1,
+        Nie = 2
     }
 }
