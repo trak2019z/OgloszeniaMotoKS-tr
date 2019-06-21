@@ -1,0 +1,256 @@
+﻿
+@model MotoKS.Models.Cars
+@{
+    MotoKS.Models.Context ctx = new MotoKS.Models.Context();
+    var tmp = (MotoKS.Models.Users)Session["user"];
+    var usr = ctx.Users.Where(x => x.ID == tmp.ID).FirstOrDefault();
+    ViewBag.Title = "Dodaj";
+}
+
+@using (Html.BeginForm("Index", "Add", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div style="text-align: center">
+        <h2> <b> Dodaj nowe ogłoszenie</b></h2>
+    </div>
+    <div class="container margins col-sm-8 col-sm-offset-2" style="background-color: #f2f2f2;">
+        <hr>
+        <div class="form-group">
+            <div class="row col-sm-12">
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="marka">Marka</label>
+                    <div class="form-group">
+                        @Html.DropDownList("Marka", (IEnumerable<SelectListItem>)ViewBag.data2, "Marka", new { @class = "form-control", onchange = "getModel()", id = "marka", name = "marka" })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="model">Model</label>
+                    <select class="form-control" name="model" id="model">
+                        <option value="" disabled selected>Model</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="status">Stan</label>
+                    @Html.EnumDropDownListFor(x => x.State, new { @class = "form-control", required = "required" })
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container col-sm-8 col-sm-offset-2" style="background-color: #f2f2f2; margin-top:20px;">
+        <hr>
+        <br>
+        <div class="form-group">
+            <div class="row col-sm-12">
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="typ">Typ pojazdu</label>
+                    @Html.EnumDropDownListFor(x => x.Type, new { @class = "form-control", required = "required" })
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="damaged">Uszkodzony</label>
+                    @Html.EnumDropDownListFor(x => x.Damaged, new { @class = "form-control", required = "required" })
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="rok">Rok produkcji</label>
+                    @Html.TextBoxFor(x => x.ProdDate, new { type = "number", @class = "form-control", maxlength = 4, required = "required" })
+                </div>
+            </div>
+        </div> <br> <br>
+        <br>
+        <div class="form-group">
+            <div class="row col-sm-12">
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="paliwo" style="white-space: nowrap;">Paliwo</label>
+                    @Html.EnumDropDownListFor(x => x.Fuel, new { @class = "form-control", required = "required" })
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="gearbox">Skrzynia biegów</label>
+                    @Html.EnumDropDownListFor(x => x.Gearbox, new { @class = "form-control", required = "required" })
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="przebieg" style="white-space: nowrap;">Przebieg - km</label>
+                    @Html.TextBoxFor(x => x.Mileage, new { type = "number", @class = "form-control", maxlength = 10, required = "required" })
+                </div>
+            </div>
+        </div> <br> <br>
+        <br>
+        <div class="form-group">
+            <div class="row col-sm-12">
+                <div class="col-sm-4">
+                    <label class="col-sm-12" style="white-space: nowrap;" for="drive">Napęd</label>
+                    @Html.EnumDropDownListFor(x => x.Drive, new { @class = "form-control", required = "required" })
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="engine" style="white-space: nowrap;">Poj. silnika - cm³</label>
+                    @Html.TextBoxFor(x => x.Engine, new { type = "number", @class = "form-control", maxlength = 5, required = "required" })
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="moc" style="white-space: nowrap;">Moc silnika - KM</label>
+                    @Html.TextBoxFor(x => x.bHP, new { type = "number", @class = "form-control", maxlength = 4, required = "required" })
+                    <hr>
+                </div> <br>
+            </div>
+        </div>
+    </div>
+    <div class="container col-sm-8 col-sm-offset-2" style="background-color: #f2f2f2; margin-top:20px;">
+        <hr>
+        <br>
+        <div class="form-group">
+            <div class="row col-sm-12">
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="price" style="white-space: nowrap;">Cena - zł</label>
+                    @Html.TextBoxFor(x => x.Price_, new { type = "number", @class = "form-control", maxlength = 10, required = "required" })
+                </div>
+                <div class="col-sm-4">
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        @Html.CheckBoxFor(x => x.Netto, new { @class = "form-check-input" }) Cena netto
+                    </label> <br>
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        @Html.CheckBoxFor(x => x.Negotiable, new { @class = "form-check-input" }) Do negocjacji
+                    </label> <br>
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        @Html.CheckBoxFor(x => x.Registered, new { @class = "form-check-input" }) Zarejestrowany
+                    </label>
+                </div>
+                <div class="col-sm-4">
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        @Html.CheckBoxFor(x => x.VAT, new { @class = "form-check-input" }) Faktura VAT
+                    </label> <br>
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        @Html.CheckBoxFor(x => x.Leasing, new { @class = "form-check-input" }) Leasing
+                    </label> <br>
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        @Html.CheckBoxFor(x => x.OC, new { @class = "form-check-input" }) Ubezpieczony
+                    </label>
+                    <hr>
+                </div> <br>
+            </div>
+        </div>
+    </div>
+    <div class="container col-sm-8 col-sm-offset-2" style="background-color: #f2f2f2; margin-top:20px;">
+        <hr>
+        <br>
+        <div class="form-group">
+            <div class="row col-sm-12">
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="color" style="white-space: nowrap;">Kolor</label>
+                    @Html.TextBoxFor(x => x.Color, new { type = "text", @class = "form-control", maxlength = 20, required = "required" })
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="country" style="white-space: nowrap;">Kraj pochodzenia</label>
+                    @Html.TextBoxFor(x => x.Country, new { type = "text", @class = "form-control", maxlength = 20, required = "required" })
+                </div>
+                <div class="col-sm-4">
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        @Html.CheckBoxFor(x => x.FirstOwner, new { @class = "form-check-input" }) Pierwszy właściciel
+                    </label> <br>
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        @Html.CheckBoxFor(x => x.ASO, new { @class = "form-check-input" }) Serwisowany w ASO
+                    </label> <br>
+                    <label class="form-check-label" style="white-space: nowrap;">
+                        @Html.CheckBoxFor(x => x.NoAcc, new { @class = "form-check-input" }) Bezwypadkowy
+                    </label>
+                    <hr>
+                </div> <br>
+            </div>
+        </div>
+    </div>
+    <div class="container col-sm-8 col-sm-offset-2" style="background-color: #f2f2f2; margin-top:20px;">
+        <hr>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <label class="col-sm-12" for="desc" style="white-space: nowrap;">Opis</label>
+                @Html.TextAreaFor(x => x.Desc, 10, 200, new { @class = "form-control", style = "resize: none; align: center;", maxlength = "4096" })
+                <hr>
+            </div>
+            <hr>
+
+        </div>
+    </div>
+    <div class="container col-sm-8 col-sm-offset-2" style="background-color: #f2f2f2; margin-top:20px;">
+        <hr>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <h3 style="text-align: center"> Dodaj zdjęcię główne</h3> <br>
+            </div>
+            <div style="text-align: center">
+                <input style="display:none" name="file" type="file" id="file" required onchange="preview_image(event)">
+                <label class="lbl" for="file"> <span class='glyphicon glyphicon-cloud-upload'></span> Wybierz</label> <br>
+            </div>
+            <div style="text-align: center">
+                <img id="previmg" style="display:none" width="320" height="180" /> <br>
+            </div>
+            <div class="col-sm-12">
+                <h3 style="text-align: center"> Dodaj zdjęcia dodatkowe</h3> <br>
+            </div>
+            <div style="text-align: center">
+                <input style="display:none" name="files" type="file" id="files" multiple>
+                <label class="lbl" for="files"> <span class='glyphicon glyphicon-cloud-upload'></span> Wybierz</label> <br>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <div class="container col-sm-8 col-sm-offset-2" style="background-color: #f2f2f2; margin-top:20px;">
+        <hr>
+        <br>
+        <div class="form-group">
+            <div class="row col-sm-12">
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="city" style="white-space: nowrap;">Miasto</label>
+                    @Html.TextBoxFor(x => x.City, new { type = "text", @class = "form-control", maxlength = 30, @Value = usr.CityName, required = "required" })
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="post" style="white-space: nowrap;">Kod pocztowy</label>
+                    @Html.TextBoxFor(x => x.PostCode, new { type = "text", @class = "form-control", maxlength = 10, @Value = usr.PostCode, required = "required" })
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12" for="moc" style="white-space: nowrap;">Telefon</label>
+                    @Html.TextBoxFor(x => x.Phone, new { type = "number", @class = "form-control", maxlength = 10, @Value = usr.Phone, required = "required" })
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div> <br>
+    <div class="container col-sm-8 col-sm-offset-2" style="margin-top:20px;">
+        <div class="form-group col-sm-3 pull-right">
+            <button type="submit" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-check"></span>  Dodaj</button>
+        </div>
+    </div>
+}
+
+<script>
+
+    function getModel() {
+        jQuery.ajax({
+            url: '@Url.Action("GetModel", "Add")',
+            data: 'marka=' + $("#marka").val(),
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $('#model').html(data);
+                $("#model").prop('disabled', false);
+            },
+            error: function () { }
+        });
+        }
+
+    function preview_image(event)
+        {
+            var reader = new FileReader();
+            reader.onload = function()
+            {
+                var output = document.getElementById('previmg');
+                output.src = reader.result;
+                output.style.display = '';
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function auto_grow(element)
+        {
+            element.style.height = "5px";
+            element.style.height = (element.scrollHeight)+"px";
+        }
+</script>
+
+

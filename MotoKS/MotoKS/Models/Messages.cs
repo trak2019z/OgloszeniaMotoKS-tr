@@ -7,6 +7,10 @@ namespace MotoKS.Models
     [Table("Messages")]
     public class Messages
     {
+        public Messages()
+        {
+            Date = DateTime.Now;
+        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
@@ -16,5 +20,7 @@ namespace MotoKS.Models
         public DateTime Date { get; set; }
 
         public bool Who { get; set; }
+
+        public virtual Conversations Conv { get; set; }
     }
 }

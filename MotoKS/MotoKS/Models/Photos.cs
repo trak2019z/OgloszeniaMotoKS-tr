@@ -10,7 +10,9 @@ namespace MotoKS.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } 
+
+        public bool Main { get; set; }
 
         public virtual Cars Car { get; set; }
     }

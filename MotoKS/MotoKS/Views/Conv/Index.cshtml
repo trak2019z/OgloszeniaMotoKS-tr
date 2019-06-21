@@ -1,0 +1,66 @@
+﻿@model MotoKS.Models.Conversations
+@{
+    int ID = Model.ID;
+    var ctx = new MotoKS.Models.Context();
+
+    var tmp = (MotoKS.Models.Users)Session["user"];
+    var usr = ctx.Users.Where(x => x.ID == tmp.ID).FirstOrDefault();
+
+    var msg = ctx.Messages.Where(x => x.Conv.ID == Model.ID).ToList();
+    msg = msg.OrderByDescending(x => x.Date).ToList();
+    
+    var tmp2 = ctx.Conversations.Where(x => x.ID == ID).FirstOrDefault();
+    var car = ctx.Cars.Where(x => x.ID == tmp2.Car.ID).FirstOrDefault();
+
+    ViewBag.Title = "Wiadomości";
+}
+
+@using (Html.BeginForm("Add", "Conv", new { ID = ID }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div style="text-align: center">
+        <h2 data-toggle="tool" data-placement="bottom" title="<img src='~/Content/Images/@car.MainPhoto' width='160' height='90'/>"> <b> Rozmowa o <i> @car.Brand.Brand @car.CarModel.Model </i> </b></h2>
+    </div>
+    <div class="col-sm-6 col-sm-offset-3" style=" margin-top:50px;">
+        <label class="col-sm-12" for="nowe" style="white-space: nowrap;">Nowa wiadomość</label>
+        <textarea class="form-control" style="resize: none; overflow: hidden;" name="nowe" id="nowe" cols="100" onkeyup="auto_grow(this)" maxlength="232" required></textarea> <br>
+        <button type="submit" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-check"></span>  Dodaj</button> <br> <br>
+
+        @foreach (var m in msg.Where(x => x != null))
+        {
+            if (car.User.ID != usr.ID)
+            {
+                if (!m.Who)
+                {
+                    <div class="col-sm-4 col-sm-offset-8">
+                        <h4 style="text-align: right;"> <b> Moje  </b> @m.Date </h4>
+                        <h2 style="text-align: right; word-wrap: break-word;"> @m.Message </h2> <hr> <br>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-sm-7">
+                        <h4> <b> @m.Conv.Car.User.FirstName  </b> @m.Date </h4>
+                        <h2 style="word-wrap: break-word;"> @m.Message </h2> <hr> <br>
+                    </div>
+                }
+            }
+            else
+            {
+                if (!m.Who)
+                {
+                    <div class="col-sm-4 col-sm-offset-8">
+                        <h4 style="text-align: right;"> <b> @m.Conv.Car.User.FirstName </b> @m.Date </h4>
+                        <h2 style="text-align: right; word-wrap: break-word;"> @m.Message </h2> <hr> <br>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-sm-7">
+                        <h4> <b> Moje </b> @m.Date </h4>
+                        <h2 style="word-wrap: break-word;"> @m.Message </h2> <hr> <br>
+                    </div>
+                }
+            }
+        }
+    </div>
+}

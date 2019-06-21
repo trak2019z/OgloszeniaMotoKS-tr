@@ -12,6 +12,7 @@ namespace MotoKS.Models
         {
             Cars = new HashSet<Cars>();
             Conversations = new HashSet<Conversations>();
+            Favs = new HashSet<Favs>();
             DateAdded = DateTime.Now;
         }
 
@@ -46,5 +47,7 @@ namespace MotoKS.Models
         public virtual HashSet<Cars> Cars { get; set; }
 
         public virtual HashSet<Conversations> Conversations { get; set; }
+
+        public virtual HashSet<Favs> Favs { get; set; }
     }
 }

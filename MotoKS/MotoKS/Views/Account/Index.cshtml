@@ -1,0 +1,202 @@
+﻿
+@{
+    MotoKS.Models.Context ctx = new MotoKS.Models.Context();
+    var tmp = (MotoKS.Models.Users)Session["user"];
+    var usr = ctx.Users.Where(x => x.ID == tmp.ID).FirstOrDefault();
+
+    var cars = ctx.Cars.Where(x => x.User.Mail == usr.Mail).ToList();
+    var favs = ctx.Favs.Where(x => x.User.ID == usr.ID).ToList();
+
+    ViewBag.Title = "Konto";
+}
+
+<div style="text-align: center">
+    <h2> <b> Witaj <i> @usr.FirstName </i> </b></h2>
+</div>
+<div class="col-sm-8 col-sm-offset-2" style=" margin-top:30px;">
+    <h2 class="col-sm-offset-1"> Moje ogłoszenia </h2> <br>
+    @if (cars.Count == 0)
+    {
+        <h3> Brak wystawionych ogłoszeń </h3>
+    }
+    else
+    {
+        <table class="table table-hover">
+            <tbody>
+            <thead>
+                <tr>
+                    <th>Marka</th>
+                    <th>Model</th>
+                    <th>Rok</th>
+                    <th>Cena</th>
+                    <th>Wyś.</th>
+                    <th>Obs.</th>
+                    <th>Opcje</th>
+                </tr>
+            </thead>
+
+            @foreach (var c in cars)
+            {
+                var fav = ctx.Favs.Where(x => x.Car.ID == c.ID);
+                var rozmowy = ctx.Conversations.Where(x => x.Car.ID == c.ID).OrderByDescending(y => y.Date);
+
+                <tr id="clicktr" @*data-toggle="tool" data-placement="left" title="<img src='~/Content/Images/@c.MainPhoto' width='160' height='90'/>"*@>
+                    <td onclick="location.href = '@Url.Action("Index", "Car", new { c.ID })'"> @c.Brand.Brand </td>
+                    <td onclick="location.href = '@Url.Action("Index", "Car", new { c.ID })'"> @c.CarModel.Model </td>
+                    <td onclick="location.href = '@Url.Action("Index", "Car", new { c.ID })'"> @c.ProdDate </td>
+                    <td style="white-space: nowrap;" onclick="location.href = '@Url.Action("Index", "Car", new { c.ID })'"> @c.Price_ PLN </td>
+                    <td onclick="location.href = '@Url.Action("Index", "Car", new { c.ID })'"> @c.Views </td>
+                    <td onclick="location.href = '@Url.Action("Index", "Car", new { c.ID })'"> @fav.Count() </td>
+                    <td>
+                        @if (rozmowy != null)
+                        {
+                            string dt = "#show_kon" + @c.ID.ToString();
+                            string id = "show_kon" + @c.ID.ToString();
+                            var nowe = rozmowy.Where(x => x.New).FirstOrDefault();
+                            string new_ = nowe != null ? "flashy" : "";
+
+                            //if (nowe != null) { new_ = "flashy"; }
+
+                        <button type="button" class="btn btn-primary" data-toggle='modal' data-target="@dt"> <span class='glyphicon glyphicon-envelope @new_'></span>  </button>
+                        <div id="@id" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <table class="table table-hover">
+                                            <tbody>
+                                            <thead>
+                                                <tr>
+                                                    <th>Od</th>
+                                                    <th>Ostatnia wiadomość</th>
+                                                    <th>Ilość wiadomości</th>
+                                                    <th>Przejdź</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+
+                                            @foreach (var r in rozmowy)
+                                            {
+                                                <tr>
+                                                    <td> @r.Buyer.FirstName </td>
+                                                    <td> @r.Date </td>
+                                                    <td> @r.Count </td>
+                                                    <td> <a href="@Url.Action("Index", "Conv", new { r.ID })" role="button" class="btn btn-warning"> <span class='glyphicon glyphicon-play'></span> </a> </td>
+                                                    @if (r.New)
+                                                    {
+                                                        <td style="color: red"> <span class="flashy"> NOWE!!! </span>  </td>
+                                                    }
+                                                </tr>
+                                            }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        else
+                        {
+                        <button type="button" class="btn btn-primary" disabled> <span class="glyphicon glyphicon-envelope"></span> </button>
+                        }
+                        <a href="@Url.Action("Edit", "Car", new { c.ID })" role="button" class="btn btn-warning" data-toggle='tooltip' title='Edytuj'> <span class='glyphicon glyphicon-cog'></span> </a>
+                        <a href="@Url.Action("Delete", "Car", new { c.ID })" role="button" class="btn btn-danger" data-toggle='tooltip' title='Usuń'> <span class='glyphicon glyphicon-trash'></span> </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>
+<div class="col-sm-8 col-sm-offset-2" style=" margin-top:30px;">
+    <h2 class="col-sm-offset-1"> Obserwowane </h2> <br>
+
+    @if (favs.Count == 0)
+    {
+        <h3> Brak obserwowanych ogłoszeń </h3>
+    }
+    else
+    {
+        <table class="table table-hover">
+            <tbody>
+            <thead>
+                <tr>
+                    <th>Marka</th>
+                    <th>Model</th>
+                    <th>Rok</th>
+                    <th>Cena</th>
+                    <th>Opcje</th>
+                </tr>
+            </thead>
+
+            @foreach (var f in favs.Where(x => x != null))
+            {
+                var roz = ctx.Conversations.Where(x => x.Car.ID == f.Car.ID && x.Buyer.Mail == usr.Mail).FirstOrDefault();
+
+                <tr data-toggle="tool" data-placement="left" title="<img src='~/Content/Images/@f.Car.MainPhoto' width='160' height='90'/>">
+                    <td onclick="location.href = '@Url.Action("Index", "Car", new { f.Car.ID })'"> @f.Car.Brand.Brand </td>
+                    <td onclick="location.href = '@Url.Action("Index", "Car", new { f.Car.ID })'"> @f.Car.CarModel.Model </td>
+                    <td onclick="location.href = '@Url.Action("Index", "Car", new { f.Car.ID })'"> @f.Car.ProdDate </td>
+                    <td onclick="location.href = '@Url.Action("Index", "Car", new { f.Car.ID })'"> @f.Car.Price_ PLN </td>
+                    <td>
+
+                        @if (roz != null)
+                        {
+                            string rr = "";
+
+                            if (roz.New) { rr = "flashy"; }
+
+                            <a href="@Url.Action("Index", "Conv", new { roz.ID })" role="button" class="btn btn-primary" data-toggle='tooltip' title='Wiadomości'> <span class='glyphicon glyphicon-envelope @rr'></span> </a>
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("New", "Conv", new { ID = f.Car.ID }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                string dt = "#new_txt" + f.ID.ToString();
+                                string id = "new_txt" + f.ID.ToString();
+                                string id2 = "nowe" + f.ID.ToString();
+                                string id3 = "slink" + f.ID.ToString();
+
+                                <button type="button" class="btn btn-warning" data-toggle='modal' data-target="@dt"> <span class='glyphicon glyphicon-envelope'></span> </button>
+                                <div id="@id" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <h3> Nowa wiadomość </h3>
+                                                <textarea class="form-control" style="resize: none; overflow: hidden;" name="nowe" id="@id2" cols="100" onkeyup="auto_grow(this)" maxlength="232" required></textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button id="slink" type="submit" class="btn btn-danger">Wyślij</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        <a href="@Url.Action("NoFav", "Car", new { f.Car.ID })" role="button" class="btn btn-danger" data-toggle='tooltip' title='Przestań obserwować'> <span class='glyphicon glyphicon-remove'></span> </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>
+
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        $('[data-toggle="tool"]').tooltip({
+            animated: 'fade',
+            html: true
+        });
+
+        (function blink() {
+            $('.flashy').fadeOut(500).fadeIn(500, blink);
+        })();
+</script>

@@ -9,8 +9,7 @@
     @Scripts.Render("~/bundles/modernizr")
 
     <style>
-        .affix 
-        {
+        .affix {
             top: 0;
             width: 100%;
             z-index: 9999
@@ -18,7 +17,7 @@
 
         .affix + .container-fluid 
         {
-           padding-top: 70px;
+            padding-top: 70px;
         }
 
         .margins {
@@ -34,37 +33,96 @@
             background-color: #00cccc;
         }
 
-        .bgaqua
-        {
+        .bgaqua {
             background-color: #00cccc;
             color: white;
         }
 
-        .clear
-        {
-            clear:both;
+        .clear {
+            clear: both;
         }
 
-        .lks:link
-        {
+        .lks:link {
             text-decoration: none;
             font-size: 180%
         }
 
-        .lks:hover
-        {
+        .lks:hover {
             text-decoration: none;
             color: #00cccc;
         }
 
-        .navbar-inverse .navbar-brand .glyphicon:hover 
-        {
+        .navbar-inverse .navbar-brand .glyphicon:hover {
             color: #00cccc;
+        }
+
+        .navbar-inverse .navbar-collapse .dodaj:hover {
+            color: #00cccc;
+        }
+
+        h2 span {
+            font-size: 15px;
+        }
+
+        .slider-size {
+            height: 40%;
+        }
+
+        div.gallery {
+            margin: 5px;
+            border: 1px solid #ccc;
+            float: left;
+            width: 180px;
+        }
+
+        div.gallery:hover 
+        {
+            border: 1px solid #777;
+        }
+
+        .btn:hover {
+            background-color: #00cccc;
+            border-color: #00cccc;
+        }
+
+        div.gallery img {
+            width: 100%;
+            height: 10%;
+        }
+
+        div.desc {
+            padding: 15px;
+            text-align: center;
+        }
+
+        @@media (max-width: 768px) {
+            .one {
+                text-align: center;
+            }
+
+            img.ctr {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        @@media (min-width: 768px) {
+            .one {
+                text-align: right;
+            }
+
+            #marka, #model {
+                width: 195px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="navbar navbar-inverse data-spy='affix' data-offset-top='75'">
+    <div class="col-sm-8 col-sm-offset-2">
+        <img src="~/Content/Images/logo.png" style="height: 70px;" />
+    </div>
+    <nav class="col-sm-12 navbar navbar-inverse data-spy='affix' data-offset-top='75'">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -80,10 +138,19 @@
                             <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
                         </a>
                     </li>
-                    <li>@Html.ActionLink("Ogłoszenia", "Cars", "Home")</li>
+                    <li>
+                        <a href="@Url.Action("Index", "Cars")" class="btn">
+                            Ogłoszenia
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Add")" class="btn">
+                            + Dodaj ogłoszenie
+                        </a>
+                    </li>
                 </ul>
                 <ul class='nav navbar-nav navbar-right'>
-                    @if (Session["mail"] == null)
+                    @if (Session["user"] == null)
                     {
                         <li>
                             <a href="@Url.Action("Index", "SignIn")" class="btn">
@@ -117,11 +184,11 @@
                 </ul>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
+    </nav>
+    <div class="container body-content col-sm-12">
         @RenderBody()
-        <hr />
-        <footer>
+        <footer class="col-sm-12">
+            <hr />
             <p>&copy; @DateTime.Now.Year - MotoKS by CaeMeS</p>
         </footer>
     </div>
@@ -132,10 +199,10 @@
 </body>
 </html>
 <script>
-        $(function() {
+    $(function () {
         $('#nav-wrapper').height($("#nav").height());
         $('#nav').affix({
-        offset: { top: $('#nav').offset().top }
+            offset: { top: $('#nav').offset().top }
         });
-        });
+    });
 </script>

@@ -1,0 +1,134 @@
+﻿@model MotoKS.Models.Cars
+@{
+    MotoKS.Models.Context ctx = new MotoKS.Models.Context();
+    var show = ctx.Cars.ToList();
+    ViewBag.Title = "Index";
+}
+
+<button type="button" id="fltrs_btn" class="btn btn-primary margins col-sm-10 col-sm-offset-1 col-xs-12" data-toggle="collapse" data-target="#fltrs">Pokaż opcje wyszukiwania</button>
+@using (Html.BeginForm("Search", "Cars", FormMethod.Post))
+{
+    <div id="fltrs" class="collapse col-sm-10 col-sm-offset-1" style="background-color: #f2f2f2;">
+        <br>
+        <div class="form-group col-sm-3">
+            @Html.DropDownList("Marka", (IEnumerable<SelectListItem>)ViewBag.data3, "Marka", new { @class = "form-control", onchange = "getModel()", id = "marka", name = "marka" })
+        </div>
+        <div class="form-group col-sm-3">
+            <select class='form-control' name='model' id='model' disabled>
+                <option value='' disabled selected>Model</option>
+            </select>
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.TextBox("Rok_od", null, new { type = "year", @class = "form-control", placeholder = "Rok(od)" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.TextBox("Rok_do", null, new { type = "year", @class = "form-control", placeholder = "Rok(do)" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.TextBox("Cena_od", null, new { type = "year", @class = "form-control", placeholder = "Cena(od)" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.TextBox("Cena_do", null, new { type = "year", @class = "form-control", placeholder = "Cena(do)" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.DropDownList("Stan", (IEnumerable<SelectListItem>)ViewBag.data4, "Stan", new { @class = "form-control", id = "stan", name = "stan" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.EnumDropDownListFor(x => x.Damaged, "Uszkodzony", new { @class = "form-control" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.EnumDropDownListFor(x => x.Type, "Typ", new { @class = "form-control" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.EnumDropDownListFor(x => x.Fuel, "Paliwo", new { @class = "form-control" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.EnumDropDownListFor(x => x.Gearbox, "Skrzynia biegów", new { @class = "form-control" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.EnumDropDownListFor(x => x.Drive, "Napęd", new { @class = "form-control" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.TextBox("Silnik_od", null, new { type = "number", @class = "form-control", placeholder = "Poj. silnika(od)", maxlength = 5 })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.TextBox("Silnik_do", null, new { type = "number", @class = "form-control", placeholder = "Poj. silnika(do)", maxlength = 5 })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.TextBox("Moc_od", null, new { type = "number", @class = "form-control", placeholder = "Moc silnika(od)", maxlength = 5 })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.TextBox("Moc_do", null, new { type = "number", @class = "form-control", placeholder = "Moc silnika(do)", maxlength = 5 })
+        </div>
+        <div class="form-group col-sm-12">
+            <button type="submit" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-search"></span> Szukaj</button>
+        </div>
+    </div>
+}
+
+@if (ViewBag.Cars != null)
+{
+    show = ViewBag.Cars;
+}
+else if (ViewBag.Cars2 != null)
+{
+    show = ViewBag.Cars2;
+}
+
+@foreach (var i in show)
+{
+    string net = "";
+    string vat = "";
+    if (i.Netto)
+    {
+        net = "Netto";
+    }
+    if (i.VAT)
+    {
+        vat = " • Faktura VAT";
+    }
+    <a style="text-decoration: none" href="@Url.Action("Index", "Car", new { i.ID })">
+        <div class="container margins col-sm-8 col-sm-offset-2 one" style="background-color: #f2f2f2; white-space: nowrap;">
+            <div class="row">
+                <div class="col-sm-3">
+                    <br>
+                    <img class="img-responsive img-rounded ctr" src="~/Content/Images/@i.MainPhoto" alt="Car Photo" width="320" height="180">
+                </div>
+                <div class="col-sm-9">
+                    <div class="col-sm-12">
+                        <h1> @i.Brand.Brand @i.CarModel.Model </h1>
+                    </div>
+                    <div class="col-sm-12" style="color: orangered;">
+                        <h2> @i.Price_ PLN <span> @net @vat </span> </h2>
+                    </div>
+                    <div class="col-sm-12" style="color: black;">
+                        <h4> @i.State.ToString() • @i.ProdDate • @i.Mileage Km </h4>
+                    </div>
+                    <div class="col-sm-12" style="color: black;">
+                        <h4> @i.Fuel • @i.Gearbox • @i.Engine cm³ • @i.bHP KM </h4>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+}
+
+
+<script>
+
+    function getModel() {
+        jQuery.ajax({
+            url: '@Url.Action("GetModel", "Home")',
+            data: 'marka=' + $("#marka").val(),
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $('#model').html(data);
+                $("#model").prop('disabled', false);
+            },
+            error: function () { }
+        });
+    }
+</script>

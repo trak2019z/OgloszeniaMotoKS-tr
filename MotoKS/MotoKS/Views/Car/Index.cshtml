@@ -1,0 +1,260 @@
+﻿@model MotoKS.Models.Cars
+@{
+    MotoKS.Models.Context ctx = new MotoKS.Models.Context();
+    var tmp = (MotoKS.Models.Users)Session["user"];
+    var usr = tmp == null ? null : ctx.Users.Where(x => x.ID == tmp.ID).FirstOrDefault();
+    string ID = @Model.ID.ToString();
+
+    MotoKS.Models.Cars car = ctx.Cars.Where(x => x.ID.ToString() == ID).FirstOrDefault();
+    var photos = ctx.Photos.Where(x => x.Car.ID.ToString() == ID);
+
+    string pc = "";
+    if (usr != null && !string.IsNullOrEmpty(car.User.PostCode))
+        pc = usr.PostCode + "+//";
+
+    ViewBag.Title = "Ogłoszenie";
+}
+
+<div class="col-sm-12 margins">
+
+    <div class="col-sm-5 col-sm-offset-2 carousel slide" id="myCarousel" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="item active">
+                <img class="img-responsive img-rounded ctr slider-size" href="~/Content/Images/@car.MainPhoto" 
+                     src="~/Content/Images/@car.MainPhoto" alt="Car Photo" style="background:url(~/Content/Images/@car.MainPhoto) center center; background-size:cover;">
+            </div>
+            @foreach (var p in photos)
+            {
+                <div class="item">
+                    <img class="img-responsive img-rounded ctr slider-size" href="~/Content/Images/@p.Name" 
+                         src="~/Content/Images/@p.Name" alt="Car Photo" style="background:url(~/Content/Images/@p.Name) center center; background-size:cover;">
+                </div>
+            }
+        </div>
+        <a class="left carousel-control" href="javascript:void(0)" data-slide="prev" data-target="#myCarousel">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only">Poprzednie</span>
+        </a>
+        <a class="right carousel-control" href="javascript:void(0)" data-slide="next" data-target="#myCarousel">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only">Następne</span>
+        </a>
+    </div>
+    <div class="col-sm-4 one">
+        <p style="font-size: 50px"> @car.Brand.Brand @car.CarModel.Model </p>
+        <h1 style="color: red;"> @car.Price_.ToString() PLN </h1>
+        @if (car.Netto)
+        {
+            <h4> Netto </h4>
+        }
+        else
+        {
+            <h4> Brutto </h4>
+        }
+
+        @if (car.Negotiable)
+        {
+            <h4> Do negocjacji </h4>
+        }
+
+        @if (car.VAT)
+        {
+            <h4> Faktura VAT </h4>
+        }
+
+        @if (car.Leasing)
+        {
+            <h4> Możliwość leasingu </h4>
+        }
+
+        <hr>
+
+        @if (usr == null)
+        {
+            <button type="button" class="btn btn-primary btn-lg" style="width: 220px;"> Tel. @car.Phone </button> <br> <br>
+            <a target="_blank" href="https://www.google.pl/maps/place/@pc@car.City" role="button" class="btn btn-primary btn-lg" style="width: 220px;"> @car.City <span class="glyphicon glyphicon-map-marker"></span> </a> <br> <br>
+            <button data-toggle='tooltip' title='Musisz być zalogowany' type="button" class="btn btn-primary btn-lg" style="width: 220px;"> Zostaw wiadomość <span class="glyphicon glyphicon-envelope"></span> </button> <br> <br>
+            <button data-toggle='tooltip' title='Musisz być zalogowany' type="button" class="btn btn-primary btn-lg" style="width: 220px;"> Do obserwowanych <span class="glyphicon glyphicon-star-empty"></span> </button> <br>
+        }
+        else if (usr.Mail == car.User.Mail)
+        {
+            var rozmowy = ctx.Conversations.Where(x => x.Car.ID == car.ID).OrderByDescending(y => y.Date);
+
+            if (rozmowy != null)
+            {
+                var nowe = rozmowy.Where(x => x.New).FirstOrDefault();
+
+                <button type="button" class="btn btn-primary btn-lg" style="width: 220px;" data-toggle='modal' data-target="#show_kon">
+                    Wiadomości
+                    @if (nowe != null)
+                    {
+                        <span class='glyphicon glyphicon-envelope flashy'></span>
+                    }
+                    else
+                    {
+                        <span class='glyphicon glyphicon-envelope'></span>
+                    }
+                </button> <br> <br>
+                <div id="show_kon" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <thead>
+                                        <tr>
+                                            <th>Od</th>
+                                            <th>Ostatnia wiadomość</th>
+                                            <th>Ilość wiadomości</th>
+                                            <th>Przejdź</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (var r in rozmowy)
+                                    {
+                                        <tr>
+                                            <td> @r.Buyer.FirstName </td>
+                                            <td> @r.Date </td>
+                                            <td> @r.Count </td>
+                                            <td> <a href="@Url.Action("Index", "Conv", new { r.ID })" role="button" class="btn btn-warning"> <span class='glyphicon glyphicon-play'></span> </a> </td>
+                                            @if (r.New)
+                                            {
+                                                <td style="color: red"> <span class="flashy"> NOWE!!! </span>  </td>
+                                            }
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <button type="button" class="btn btn-primary btn-lg" data-toggle='tooltip' title='Brak wiadomości' style="width: 220px;"> Wiadomości <span class="glyphicon glyphicon-envelope"></span> </button> <br> <br>
+            }
+
+            <a href=@Url.Action("Edit", "Car", new { car.ID }) role="button" class="btn btn-primary btn-lg" style="width: 220px;"> Edytuj <span class="glyphicon glyphicon-cog"></span> </a> <br> <br>
+            <a href=@Url.Action("Delete", "Car", new { car.ID }) role="button" class="btn btn-primary btn-lg" style="width: 220px;"> Usuń <span class="glyphicon glyphicon-trash"></span> </a> <br>
+        }
+        else if (usr.Mail != car.User.Mail)
+        {
+            <button type="button" class="btn btn-primary btn-lg" style="width: 220px;"> Tel. @car.Phone  </button> <br> <br>
+            <a target="_blank" href="https://www.google.pl/maps/place/@pc/@car.City" role="button" class="btn btn-primary btn-lg" style="width: 220px;"> @car.City <span class="glyphicon glyphicon-map-marker"></span> </a> <br> <br>
+
+            var rozm = ctx.Conversations.Where(x => x.Car.ID == car.ID && x.Buyer.Mail == usr.Mail).FirstOrDefault();
+
+            if (rozm != null)
+            {
+                <a href=@Url.Action("Index", "Conv", new { rozm.ID }) role="button" class="btn btn-primary btn-lg" style="width: 220px;"> Wiadomości <span class="glyphicon glyphicon-envelope"></span> </a> <br> <br>
+            }
+            else
+            {
+                using (Html.BeginForm("New", "Conv", new { ID = ID }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <button type="button" class="btn btn-primary btn-lg" style="width: 220px;" data-toggle='modal' 
+                            data-target="#new_txt"> Wyślij wiadomość <span class='glyphicon glyphicon-envelope'></span> </button> <br> <br>
+                    <div id="new_txt" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <h3 style="text-align:center"> Nowa wiadomość </h3>
+                                    <textarea class="form-control" style="resize: none; overflow: hidden;" name="nowe" id="nowe" 
+                                              cols="100" onkeyup="auto_grow(this)" maxlength="232" required></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button id="slink" type="submit" class="btn btn-danger">Wyślij</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            var fav = ctx.Favs.Where(x => x.Car.ID == car.ID && x.User.ID == usr.ID).FirstOrDefault();
+
+            if (fav == null)
+            {
+                <a href=@Url.Action("Fav", "Car", new { car.ID }) role="button" class="btn btn-primary btn-lg" style="width: 220px;"> Do obserwowanych <span class="glyphicon glyphicon-star-empty"></span> </a> <br>
+            }
+            else
+            {
+                <a href=@Url.Action("NoFav", "Car", new { car.ID }) role="button" class="btn btn-primary btn-lg" style="width: 220px;"> Obserwujesz <span class="glyphicon glyphicon-star"></span> </a> <br>
+            }
+        }
+
+    </div>
+</div> <br> <br>
+<div class="container col-sm-10 col-sm-offset-1" style="background-color: #f2f2f2; margin-top:30px; ">
+    <div>
+        <h4 class="col-sm-2 col-sm-offset-2" style="white-space: nowrap;"> <b> Typ: </b> @car.Type </h4>
+        <h4 class="col-sm-2 col-sm-offset-3" style="white-space: nowrap;"> <b> Stan: </b> @car.State </h4>
+        <h4 class="col-sm-2 col-sm-offset-2" style="white-space: nowrap;"> <b> Rok produkcji: </b> @car.ProdDate </h4>
+        <h4 class="col-sm-2 col-sm-offset-3" style="white-space: nowrap;"> <b> Kraj pochodzenia: </b> @car.Country </h4>
+        <h4 class="col-sm-2 col-sm-offset-2" style="white-space: nowrap;"> <b> Przebieg: </b> @car.Mileage km </h4>
+        <h4 class="col-sm-2 col-sm-offset-3" style="white-space: nowrap;"> <b> Uszkodzony: </b> @car.Damaged </h4>
+        <h4 class="col-sm-2 col-sm-offset-2" style="white-space: nowrap;"> <b> Rodzaj paliwa: </b> @car.Fuel </h4>
+        <h4 class="col-sm-2 col-sm-offset-3" style="white-space: nowrap;"> <b> Skrzynia biegów: </b> @car.Gearbox </h4>
+        <h4 class="col-sm-2 col-sm-offset-2" style="white-space: nowrap;"> <b> Pojemność silnika: </b> @car.Engine cm³ </h4>
+        <h4 class="col-sm-2 col-sm-offset-3" style="white-space: nowrap;"> <b> Moc: </b> @car.bHP KM </h4>
+        <h4 class="col-sm-2 col-sm-offset-2" style="white-space: nowrap;"> <b> Napęd: </b> @car.Drive </h4>
+        <h4 class="col-sm-2 col-sm-offset-3" style="white-space: nowrap;"> <b> Kolor: </b> @car.Color </h4>
+        <h4 class="col-sm-2 col-sm-offset-2" style="white-space: nowrap;">
+            <b> Ubezpieczony: </b> @if (car.OC)
+            {<span class="glyphicon glyphicon-ok"> </span>}
+            else
+            {<span class="glyphicon glyphicon-remove"> </span>}
+        </h4>
+        <h4 class="col-sm-2 col-sm-offset-3" style="white-space: nowrap;">
+            <b> Zarejestrowany: </b> @if (car.Registered)
+            {<span class="glyphicon glyphicon-ok"> </span>}
+            else
+            {<span class="glyphicon glyphicon-remove"> </span>}
+        </h4>
+        <h4 class="col-sm-2 col-sm-offset-2" style="white-space: nowrap;">
+            <b> Pierwszy właściciel: </b> @if (car.FirstOwner)
+            {<span class="glyphicon glyphicon-ok"> </span>}
+            else
+            {<span class="glyphicon glyphicon-remove"> </span>}
+        </h4>
+        <h4 class="col-sm-2 col-sm-offset-3" style="white-space: nowrap;">
+            <b> Serwisowany w ASO: </b> @if (car.ASO)
+            {<span class="glyphicon glyphicon-ok"> </span>}
+            else
+            {<span class="glyphicon glyphicon-remove"> </span>}
+        </h4>
+        <h4 class="col-sm-2 col-sm-offset-2" style="white-space: nowrap;">
+            <b> Bezwypadkowy: </b> @if (car.NoAcc)
+            {<span class="glyphicon glyphicon-ok"> </span>}
+            else
+            {<span class="glyphicon glyphicon-remove"> </span>}
+        </h4>
+        <h4 class="col-sm-2 col-sm-offset-3" style="white-space: nowrap;"> <b> Data dodania: </b> @car.DateAdded.ToShortDateString() </h4>
+
+        <hr>
+    </div>
+</div>
+<div class="col-sm-7 col-sm-offset-1" style=" margin-top:30px;">
+    <h2 class="col-sm-offset-1"> Opis pojazdu </h2>
+    <h3 style="white-space: pre-wrap;"> @car.Desc </h3>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    (function blink() {
+        $('.flashy').fadeOut(500).fadeIn(500, blink);
+    })();
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+
+</script>

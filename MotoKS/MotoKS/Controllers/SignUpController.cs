@@ -21,7 +21,7 @@ namespace MotoKS.Controllers
             {
                 var user = ctx.Users.Where(x => x.Mail == usr.Mail).FirstOrDefault();
 
-                if(user == null)
+                if (user == null)
                     ViewBag.ErrorMessage = "Niepoprawna nazwa użytkownika lub hasło";
                 else
                 {
@@ -47,8 +47,8 @@ namespace MotoKS.Controllers
                         ViewBag.ErrorMessage = "Niepoprawna nazwa użytkownika lub hasło";
                     else
                     {
-                        HttpContext.Session.Add("mail", usr.Mail);
-                        return View("~/Views/Home/Index.cshtml");
+                        HttpContext.Session.Add("user", user2);
+                        return RedirectToAction("Index", "Home");
                     }
                 }
             }
@@ -58,9 +58,9 @@ namespace MotoKS.Controllers
 
         public ActionResult SignOff()
         {
-            HttpContext.Session.Remove("mail");
+            HttpContext.Session.Remove("user");
 
-            return View("~/Views/Home/Index.cshtml");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
